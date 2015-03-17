@@ -9,9 +9,9 @@ php_timezone = "Pacific/Auckland"
 
 mysql_root_password = "root"
 
-db_name = "vmoko"
-db_user = "vmoko_u"
-db_pass = "LkTaUDDHKUc"
+db_name = "app"
+db_user = "app_u"
+db_pass = "GENERATE_A_REAL_PASSWORD"
 
 Vagrant.configure(2) do |config|
 
