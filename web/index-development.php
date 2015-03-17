@@ -6,7 +6,7 @@ define('ENV_TESTING', 1);
 define('ENV_STAGING', 2);
 define('ENV_PRODUCTION', 3);
 
-define('YII_ENV', ENV_PRODUCTION);
+define('YII_ENV', ENV_DEVELOPMENT);
 
 
 defined('YII_DEBUG') or define('YII_DEBUG', true);
