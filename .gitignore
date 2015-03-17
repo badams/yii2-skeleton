@@ -26,4 +26,8 @@ phpunit.phar
 # local phpunit config
 /phpunit.xml
 
+# Vagrant data
 /.vagrant
+
+# Main index file.
+/web/index.php
