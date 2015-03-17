@@ -1,14 +1,17 @@
 <?php
 
+use \yii\base\InvalidConfigException;
+use \yii\helpers\ArrayHelper;
+
 $params = require(__DIR__ . '/params.php');
 
 $config = [
-    'id' => 'basic',
+    'id' => 'app-name',
+    'name' => 'App Name',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
         'request' => [
-            // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'WH02mJbodjc7_k1YmDqsXj47J2A82qxj',
         ],
         'cache' => [
@@ -23,10 +26,7 @@ $config = [
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
-            'useFileTransport' => true,
+            'useFileTransport' => false,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -37,18 +37,24 @@ $config = [
                 ],
             ],
         ],
-        'db' => require(__DIR__ . '/db.php'),
     ],
     'params' => $params,
 ];
 
-if (YII_ENV_DEV) {
-    // configuration adjustments for 'dev' environment
-    $config['bootstrap'][] = 'debug';
-    $config['modules']['debug'] = 'yii\debug\Module';
-
-    $config['bootstrap'][] = 'gii';
-    $config['modules']['gii'] = 'yii\gii\Module';
+switch(YII_ENV) {
+    case ENV_DEVELOPMENT:
+        $envConfig = require(__DIR__.'/development/web.php');
+        break;
+    case ENV_STAGING:
+        $envConfig = require(__DIR__.'/staging/web.php');
+        break;
+    case ENV_PRODUCTION:
+        $envConfig = require(__DIR__.'/production/web.php');
+        break;
+    default:
+        throw new InvalidConfigException('Environment not properly configured.');
+        break;
 }
 
-return $config;
+return ArrayHelper::merge($config, $envConfig);
+
